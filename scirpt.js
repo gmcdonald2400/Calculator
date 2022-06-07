@@ -1,234 +1,648 @@
-// declare global variables and initialize
-let num1 = 0;
-let tempNum1Array = [];
-let num2 = 0;
-let tempNum2Array = [];
-let savedFirstValue = 0;
-let operator = "";
-let tempOperatorArray = [];
+function add(a, b) {
+    let c = parseFloat(a) + parseFloat(b);
+    if (c.length > 16) {
+        c = c.toFixed(2);
+        return c;
+    } return c;
+};
+function subtract(a, b) {
+    let c = parseFloat(a) - parseFloat(b);
+    if (c.length > 16) {
+        c = c.toFixed(2);
+        return c;
+    } return c;
+};
+function multiply(a, b) {
+    let c = parseFloat(a) * parseFloat(b);
+    if (c.length > 16) {
+        c = c.toFixed(2);
+        return c;
+    } return c;
+};
+function divide(a, b) {
+    let c = parseFloat(a) / parseFloat(b);
+    if (c.length > 16) {
+        c = c.toFixed(2);
+        return c;
+    } return c;
+};
 
-/////////////////////////////////////////
-// basic sub-functions for the math ops //
-////////////////////////////////////////
+let operator = '';
+let previous = '';
+let current = '';
 
-function add(num1, num2) {
-    let addValue = (num1 + num2);
-    let rounded = Math.round((addValue + Number.EPSILON) * 100) / 100;
-    rounded = rounded.toFixed(2);
-    console.log("add", rounded);
-    const calcDisplay = document.querySelector("#display");
-    calcDisplay.textContent = rounded;
-}
+let display = document.querySelector('#display');
+let oneBtn = document.querySelector('#one');
+let twoBtn = document.querySelector('#two');
+let threeBtn = document.querySelector('#three');
+let fourBtn = document.querySelector('#four');
+let fiveBtn = document.querySelector('#five');
+let sixBtn = document.querySelector('#six');
+let sevenBtn = document.querySelector('#seven');
+let eightBtn = document.querySelector('#eight');
+let nineBtn = document.querySelector('#nine');
+let zeroBtn = document.querySelector('#zero');
+let addBtn = document.querySelector('#add');
+let subtractBtn = document.querySelector('#subtract');
+let multiplyBtn = document.querySelector('#multiply');
+let divideBtn = document.querySelector('#divide');
+let equalsBtn = document.querySelector('#equals');
+let clearBtn = document.querySelector('#clear');
+let backBtn = document.querySelector('#backspace');
+let decimalBtn = document.querySelector('#decimal');
 
-function subtract(num1, num2) {
-    let subtractValue = (num1 - num2);
-    let rounded = Math.round((subtractValue + Number.EPSILON) * 100) / 100;
-    rounded = rounded.toFixed(2);
-    console.log("subtract", rounded);
-    const calcDisplay = document.querySelector("#display");
-    calcDisplay.textContent = rounded;
-}
+display.textContent = '0';
 
-function multiply(num1, num2) {
-    let multiplyValue = (num1 * num2);
-    let rounded = Math.round((multiplyValue = Number.EPSILON) * 100) / 100;
-    rounded = rounded.toFixed(2);
-    console.log("multiply", rounded);
-    const calcDisplay = document.querySelector("#display");
-    calcDisplay.textContent = rounded;
-}
-
-function divide(num1, num2) {
-let divideValue = (num1 / num2);
-
-    // error check for division by 0
-    if (divideValue == "Infinity") {
-         return alert("ERROR! Cannot divide by zero! you should know better.........");
+oneBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '1';
+        display.textContent = current;
     } else {
-        let rounded = Math.round((divideValue + Number.EPSILON) * 100) / 100;
-        rounded = rounded.toFixed(2);
-        console.log("divide", rounded);
-        const calcDisplay = document.querySelector("#display");
-        calcDisplay.textContent = rounded;
+        current += '1';
+        display.textContent = current;
     }
-}
-
-// use operator variable to determine which function to call
-function operate(operator, num1, num2) {
-    switch (operator) {
-        case "+":
-            console.log("passing through swich +");
-            add(num1, num2);
-            break;
-        case "-":
-            console.log("passing through swich -");
-            subtract(num1, num2);
-            break;
-        case "*":
-            console.log("passing through swich *");
-            multiply(num1, num2);
-            break;
-        case "/":
-            console.log("passing through swich /");
-            divide(num1, num2);
-            break;
-        default:
-            alert("ERROR! Didn't receive an operator, or type not as expected!");
+});
+twoBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
     }
-}
-
-///////////////////////////////////////
-// Calculator Adanced Features & Algo //
-//////////////////////////////////////
-
-function runCalculation() {
-
-    function getNumberClicked() {
-        const opertandButtons = document.querySelectorAll(".operand");
-        opertandButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                console.log("hit me frist number!");
-                savedFirstValue = button.getAttribute("value");
-                console.log(savedFirstValue);
-                const calcDisplay = document.querySelector("#display");
-
-                //append to num1 if multiple numbers are pressed and display out 
-                if (operator == "") {
-                    tempNum1Array.push(savedFirstValue);
-                    console.log("show me the array1: ", tempNum1Array);
-                    num1 = tempNum1Array.join("");
-                    console.log("save frist value is: ", num1);
-                    calcDisplay.textContent = num1;
-                } else {
-
-                // append to num2 if multiple numbers are pressed and display out 
-                tempNum2Array.push(savedFirstValue);
-                console.log("show me the array2: ", tempNum2Array);
-                num2 = tempNum2Array.join("");
-                console.log("num2 is: ", num2);
-                calcDisplay.textContent = num2;
-                }
-            })
-        })
+    else if (current === '0') {
+        current = '2';
+        display.textContent = current;
+    } else {
+        current += '2';
+        display.textContent = current;
     }
-
-    function getOperatorSelection() {
-        const operatorButtons = document.querySelectorAll(".operator");
-        operatorButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                console.log("hit me operator!");
-                operator = button.getAttribute("value");
-                console.log(operator);
-                tempOperatorArray.push(operator);
-                console.log("store temp operator in array for string calcs: ", tempOperatorArray);
-
-                // enable the decimal button if disabled from previous click/use
-                document.getElementById("decimal").disabled = false;
-                console.log("decimal button should be ENABLED now")
-
-                // check to see if a multi-operand string exissts and needs calculatered on the fly
-                if ((tempNum1Array != "") && (tempNum2Array !="")) {
-                    const calcDisplay = document.querySelector("#display");
-                    num1 = tempNum1Array.join("");
-                    num2 = tempNum2Array.join("");
-                    num1 = parseFloat(num1);
-                    num2 = parseFloat(num2);
-                    let tempOperator = tempOperatorArray[tempOperatorArray.length - 2].toString();
-                    console.log("Running STRING calculation now!");
-                    operate(tempOperator, num1, num2);
-                    let tempStringValue = calcDisplay.textContent;
-                    console.log("temp string value: ", tempStringValue);
-                    console.log("clearing out the arrays and nums now!");
-                    tempNum1Array = [];
-                    tempNum2Array = [];
-                    num1 = 0;
-                    num2 = 0;
-                    console.log("array 1:", tempNum1Array);
-                    console.log("array 2:", tempNum2Array);
-                    console.log("num1: ", num1);
-                    console.log("num2: ", num2);
-                    tempNum1Array.push(tempStringValue);
-                    num1 = tempNum1Array.join("");
-                    console.log("pushed string value to array 1: ", tempNum1Array);
-                }    
-            })
-        })
+});
+threeBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
     }
-
-    function runCalculation() {
-       const equalsButton = document.querySelector(".equals");
-            equalsButton.addEventListener('click', () => {
-                console.log("time to run the math!", num1, num2, operator);
-                const calcDisplay = document.querySelector("#display");
-                num1 = parseFloat(num1);
-                num2 = parseFloat(num2);
-                operate(operator, num1, num2);
-            }) 
+    else if (current === '0') {
+        current = '3';
+        display.textContent = current;
+    } else {
+        current += '3';
+        display.textContent = current;
     }
+});
+fourBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '4';
+        display.textContent = current;
+    } else {
+        current += '4';
+        display.textContent = current;
+    }
+});
+fiveBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '5';
+        display.textContent = current;
+    } else {
+        current += '5';
+        display.textContent = current;
+    }
+});
+sixBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '6';
+        display.textContent = current;
+    } else {
+        current += '6';
+        display.textContent = current;
+    }
+});
+sevenBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '7';
+        display.textContent = current;
+    } else {
+        current += '7';
+        display.textContent = current;
+    }
+});
+eightBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '8';
+        display.textContent = current;
+    } else {
+        current += '8';
+        display.textContent = current;
+    }
+});
+nineBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '9';
+        display.textContent = current;
+    } else {
+        current += '9';
+        display.textContent = current;
+    }
+});
+zeroBtn.addEventListener('click', function () {
+    if (current.length >= 20) {
+        display.textContent = current;
+    }
+    else if (current === '0') {
+        current = '0';
+        display.textContent = current;
+    } else {
+        current += '0';
+        display.textContent = current;
+    }
+});
+decimalBtn.addEventListener('click', function () {
+    if (display.textContent.includes('.')) {
+        display.textContent = current;
+    } else if (current.length >= 20) {
+        display.textContent = current;
+    } else if (current === '0') {
+        current = '0.';
+        display.textContent = current;
+    } else {
+        current += '.';
+        display.textContent = current;
+    }
+});
 
-    //DOM for "Clear" button 
-    const clearButton = document.querySelector(".clear");
-        clearButton.addEventListener('click', () => { location.reload(); })
-
-    //DOM for "+/-" button
-    const signButton = document.querySelector(".sign");
-        signButton.addEventListener('click', () => { location.reload(); 
-        
-            // append "+/-" to numarray1 and display out 
-            if (operator == "") {
-                const calcDisplay = document.querySelector("#display");
-                console.log("negative button registered here!");
-                tempNum1Array.splice(0,1, (tempNum1Array[0] * -1).toString());
-                console.log("append the array with negative number: ", tempNum1Array);
-                num1 = tempNum1Array.join("");
-                calcDisplay.textContent = num1;
-            }else {
-
-                // append "=/-" to numarray2 and display out 
-                const calcDisplay = document.querySelector("#display");
-                console.log("negative button registered here on num2!");
-                tempNum2Array.splice(0, 1, (tempNum2Array[0] * -1).toString());
-                console.log("append the array with negative number on num2: ", tempNum2Array);
-                num2 = tempNum2Array.join("");
-                calcDisplay.textContent = num2;
+addBtn.addEventListener('click', function () {
+    if (operator === '') {
+        previous = display.textContent;
+        current = '0';
+        operator = 'add';
+    } else if (operator === 'add') {
+        previous = add(previous, current);
+        current = '0';
+        operator = 'add';
+        display.textContent = previous;
+    } else if (operator === 'subtract') {
+        previous = subtract(previous, current);
+        current = '0';
+        operator = 'add';
+        display.textContent = previous;
+    } else if (operator === 'multiply') {
+        previous = multiply(previous, current);
+        current = '0';
+        operator = 'add';
+        display.textContent = previous;
+    } else if (operator === 'divide') {
+        if (current !== '0') {
+            previous = divide(previous, current);
+            current = '0';
+            operator = 'add';
+            display.textContent = previous;
+        } else if (current === '0') {
+            display.textContent = 'I refuse to divide by 0';
+        }
+    }
+});
+subtractBtn.addEventListener('click', function () {
+    if (operator === '') {
+        previous = display.textContent;
+        current = '0';
+        operator = 'subtract';
+    } else if (operator === 'add') {
+        previous = add(previous, current);
+        current = '0';
+        operator = 'subtract';
+        display.textContent = previous;
+    } else if (operator === 'subtract') {
+        previous = subtract(previous, current);
+        current = '0';
+        operator = 'subtract';
+        display.textContent = previous;
+    } else if (operator === 'multiply') {
+        previous = multiply(previous, current);
+        current = '0';
+        operator = 'subtract';
+        display.textContent = previous;
+    } else if (operator === 'divide') {
+        if (current !== '0') {
+            previous = divide(previous, current);
+            current = '0';
+            operator = 'subtract';
+            display.textContent = previous;
+        } else if (current === '0') {
+            display.textContent = 'I refuse to divide by 0';
+        }
+    }
+});
+multiplyBtn.addEventListener('click', function () {
+    if (operator === '') {
+        previous = display.textContent;
+        current = '0';
+        operator = 'multiply';
+    } else if (operator === 'add') {
+        previous = add(previous, current);
+        current = '0';
+        operator = 'multiply';
+        display.textContent = previous;
+    } else if (operator === 'subtract') {
+        previous = subtract(previous, current);
+        current = '0';
+        operator = 'multiply';
+        display.textContent = previous;
+    } else if (operator === 'multiply') {
+        previous = multiply(previous, current);
+        current = '0';
+        operator = 'multiply';
+        display.textContent = previous;
+    } else if (operator === 'divide') {
+        if (current !== '0') {
+            previous = divide(previous, current);
+            current = '0';
+            operator = 'multiply';
+            display.textContent = previous;
+        } else if (current === '0') {
+            display.textContent = 'I refuse to divide by 0';
+        }
+    }
+});
+divideBtn.addEventListener('click', function () {
+    if (operator === '') {
+        previous = display.textContent;
+        current = '0';
+        operator = 'divide';
+    } else if (operator === 'add') {
+        previous = add(previous, current);
+        current = '0';
+        operator = 'divide';
+        display.textContent = previous;
+    } else if (operator === 'subtract') {
+        previous = subtract(previous, current);
+        current = '0';
+        operator = 'divide';
+        display.textContent = previous;
+    } else if (operator === 'multiply') {
+        previous = multiply(previous, current);
+        current = '0';
+        operator = 'divide';
+        display.textContent = previous;
+    } else if (operator === 'divide') {
+        if (current !== '0') {
+            previous = divide(previous, current);
+            current = '0';
+            operator = 'divide';
+            display.textContent = previous;
+        } else if (current === '0') {
+            display.textContent = 'I refuse to divide by 0';
+        }
+    }
+});
+equalsBtn.addEventListener('click', function () {
+    if (operator === '') {
+        previous = display.textContent;
+        current = '0'
+        operator = '';
+    } else if (operator === 'add') {
+        previous = add(previous, current);
+        current = '0';
+        operator = '';
+        display.textContent = previous;
+    } else if (operator === 'subtract') {
+        previous = subtract(previous, current);
+        current = '0';
+        operator = '';
+        display.textContent = previous;
+    } else if (operator === 'multiply') {
+        previous = multiply(previous, current);
+        current = '0';
+        operator = '';
+        display.textContent = previous;
+    } else if (operator === 'divide') {
+        if (current !== '0') {
+            previous = divide(previous, current);
+            current = '0';
+            operator = '';
+            display.textContent = previous;
+        } else if (current === '0') {
+            display.textContent = 'I refuse to divide by 0';
+        }
+    }
+});
+clearBtn.addEventListener('click', function () {
+    previous = '';
+    current = '';
+    operator = '';
+    display.textContent = '0';
+});
+backBtn.addEventListener('click', function () {
+    if (display.textContent.length !== 1) {
+        current = display.textContent.slice(0, -1);
+        display.textContent = current;
+    } else {
+        current = '0';
+        display.textContent = current;
+    }
+});
+window.addEventListener('keydown', function (e) {
+    if (e.key === '1') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '1';
+            display.textContent = current;
+        } else {
+            current += '1';
+            display.textContent = current;
+        }
+    } else if (e.key === '2') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '2';
+            display.textContent = current;
+        } else {
+            current += '2';
+            display.textContent = current;
+        }
+    } else if (e.key === '3') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '3';
+            display.textContent = current;
+        } else {
+            current += '3';
+            display.textContent = current;
+        }
+    } else if (e.key === '4') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '4';
+            display.textContent = current;
+        } else {
+            current += '4';
+            display.textContent = current;
+        }
+    } else if (e.key === '5') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '5';
+            display.textContent = current;
+        } else {
+            current += '5';
+            display.textContent = current;
+        }
+    } else if (e.key === '6') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '6';
+            display.textContent = current;
+        } else {
+            current += '6';
+            display.textContent = current;
+        }
+    } else if (e.key === '7') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '7';
+            display.textContent = current;
+        } else {
+            current += '7';
+            display.textContent = current;
+        }
+    } else if (e.key === '8') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '8';
+            display.textContent = current;
+        } else {
+            current += '8';
+            display.textContent = current;
+        }
+    } else if (e.key === '9') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '9';
+            display.textContent = current;
+        } else {
+            current += '9';
+            display.textContent = current;
+        }
+    } else if (e.key === '0') {
+        if (current.length >= 20) {
+            display.textContent = current;
+        }
+        else if (current === '0') {
+            current = '0';
+            display.textContent = current;
+        } else {
+            current += '0';
+            display.textContent = current;
+        }
+    } else if (e.key === '.') {
+        if (display.textContent.includes('.')) {
+            display.textContent = current;
+        }
+        else if (current.length >= 20) {
+            display.textContent = current;
+        } else if (current === '0') {
+            current = '0.';
+            display.textContent = current;
+        } else {
+            current += '.';
+            display.textContent = current;
+        }
+    } else if (e.key === '+') {
+        if (operator === '') {
+            previous = display.textContent;
+            current = '0';
+            operator = 'add';
+        } else if (operator === 'add') {
+            previous = add(previous, current);
+            current = '0';
+            operator = 'add';
+            display.textContent = previous;
+        } else if (operator === 'subtract') {
+            previous = subtract(previous, current);
+            current = '0';
+            operator = 'add';
+            display.textContent = previous;
+        } else if (operator === 'multiply') {
+            previous = multiply(previous, current);
+            current = '0';
+            operator = 'add';
+            display.textContent = previous;
+        } else if (operator === 'divide') {
+            if (current !== '0') {
+                previous = divide(previous, current);
+                current = '0';
+                operator = 'add';
+                display.textContent = previous;
+            } else if (current === '0') {
+                display.textContent = 'I refuse to divide by 0';
             }
-        })
-
-    // DOM for "decimal" button 
-    const decimalButton = document.querySelector(".decimal");
-        decimalButton.addEventListener('click', () => {
-            console.log("decimal pressed");
-            let decimalButton = ".";
-            const calcDisplay = document.querySelector("#display");
-
-            // append "decimal" to numarray1 and display out 
-            if (operator == "") {
-                const calcDisplay = document.querySelector("#display");
-                console.log("decimal button registered here!", decimalButton);
-                tempNum1Array.push(decimalButton);
-                console.log("append the array1 with decimal: ", tempNum1Array);
-                num1 = tempNum1Array.join("");
-                calcDisplay.textContent = num1;
-                document.getElementById("decimal").disabled = true;
-                console.log("num1 decimal button should be disabled now");
-            }else{
-
-                //append "decimal" to numarray2 and display out 
-                  const calcDisplay = document.querySelector("#display");
-                  console.log("decimal button registered here!", decimalButton);
-                  tempNum2Array.push(decimalButton);
-                  console.log("append the array1 with decimal: ", tempNum2Array);
-                  num2 = tempNum2Array.join("");
-                  calcDisplay.textContent = num2;
-                  document.getElementById("decimal").disabled = true;
-                  console.log("num2 decimal button should be disabled now");
+        }
+    } else if(e.key === '-'){
+        if (operator === '') {
+            previous = display.textContent;
+            current = '0';
+            operator = 'subtract';
+        } else if (operator === 'add') {
+            previous = add(previous, current);
+            current = '0';
+            operator = 'subtract';
+            display.textContent = previous;
+        } else if (operator === 'subtract') {
+            previous = subtract(previous, current);
+            current = '0';
+            operator = 'subtract';
+            display.textContent = previous;
+        } else if (operator === 'multiply') {
+            previous = multiply(previous, current);
+            current = '0';
+            operator = 'subtract';
+            display.textContent = previous;
+        } else if (operator === 'divide') {
+            if (current !== '0') {
+                previous = divide(previous, current);
+                current = '0';
+                operator = 'subtract';
+                display.textContent = previous;
+            } else if (current === '0') {
+                display.textContent = 'I refuse to divide by 0';
             }
-        })
-    // call/run the advanced sub-functions
-    getNumberClicked();
-    getOperatorSelection();
-    runCalculation();
-}
-
-// call/run the main function
-runCalculation();
+        }
+    } else if (e.key === '*'){
+        if (operator === '') {
+            previous = display.textContent;
+            current = '0';
+            operator = 'multiply';
+        } else if (operator === 'add') {
+            previous = add(previous, current);
+            current = '0';
+            operator = 'multiply';
+            display.textContent = previous;
+        } else if (operator === 'subtract') {
+            previous = subtract(previous, current);
+            current = '0';
+            operator = 'multiply';
+            display.textContent = previous;
+        } else if (operator === 'multiply') {
+            previous = multiply(previous, current);
+            current = '0';
+            operator = 'multiply';
+            display.textContent = previous;
+        } else if (operator === 'divide') {
+            if (current !== '0') {
+                previous = divide(previous, current);
+                current = '0';
+                operator = 'multiply';
+                display.textContent = previous;
+            } else if (current === '0') {
+                display.textContent = 'I refuse to divide by 0';
+            }
+        }
+    } else if (e.key === '/'){
+        if (operator === '') {
+            previous = display.textContent;
+            current = '0';
+            operator = 'divide';
+        } else if (operator === 'add') {
+            previous = add(previous, current);
+            current = '0';
+            operator = 'divide';
+            display.textContent = previous;
+        } else if (operator === 'subtract') {
+            previous = subtract(previous, current);
+            current = '0';
+            operator = 'divide';
+            display.textContent = previous;
+        } else if (operator === 'multiply') {
+            previous = multiply(previous, current);
+            current = '0';
+            operator = 'divide';
+            display.textContent = previous;
+        } else if (operator === 'divide') {
+            if (current !== '0') {
+                previous = divide(previous, current);
+                current = '0';
+                operator = 'divide';
+                display.textContent = previous;
+            } else if (current === '0') {
+                display.textContent = 'I refuse to divide by 0';
+            }
+        }
+    } else if (e.key === '='){
+        if (operator === '') {
+            previous = display.textContent;
+            current = '0'
+            operator = '';
+        } else if (operator === 'add') {
+            previous = add(previous, current);
+            current = '0';
+            operator = '';
+            display.textContent = previous;
+        } else if (operator === 'subtract') {
+            previous = subtract(previous, current);
+            current = '0';
+            operator = '';
+            display.textContent = previous;
+        } else if (operator === 'multiply') {
+            previous = multiply(previous, current);
+            current = '0';
+            operator = '';
+            display.textContent = previous;
+        } else if (operator === 'divide') {
+            if (current !== '0') {
+                previous = divide(previous, current);
+                current = '0';
+                operator = '';
+                display.textContent = previous;
+            } else if (current === '0') {
+                display.textContent = 'I refuse to divide by 0';
+            }
+        }
+    } else if (e.key === 'Delete'){
+        previous = '';
+        current = '';
+        operator = '';
+        display.textContent = '0';
+    } else if (e.key === 'Backspace'){
+        if (display.textContent.length !== 1) {
+            current = display.textContent.slice(0, -1);
+            display.textContent = current;
+        } else {
+            current = '0';
+            display.textContent = current;
+        }
+    }
+});
